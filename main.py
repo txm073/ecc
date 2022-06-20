@@ -10,7 +10,7 @@ class EllipticCurve:
         # `p` is a large prime number used as a modulo
         # To cause the points on the curve to cycle back around to prevent huge numbers
         "p": 0xfffffffffffffffffffffffffffffffffffffffffffffffffffffffefffffc2f, 
-        # `a` and `b` are the constants in the elliptic curve general formula: `y²=x³+ax+b`
+        # `a` and `b` are the constants in the `elliptic curve general formula: `y²=x³+ax+b`
         "a": 0, 
         "b": 7, 
         # `x` and `y` are the co-ordinates of the generator point
@@ -51,13 +51,12 @@ class EllipticCurve:
         result = None
         point = p
         while n:
-            if n & 1:
-                # Add on the last iteratiion
+            if n % 2:
                 result = self.add(result, point)
             # Double
             point = self.add(point, point)
             # Bitwise right shift of n by 1 bit
-            n >>= 1
+            n //= 2
         return result
 
     def modinv(self, a, m):
@@ -117,4 +116,8 @@ def main():
     print("Shared secret:", secret)
 
 if __name__ == "__main__":
-    main()
+    import math
+
+    ec = EllipticCurve()
+    p = ec.params
+    print((p["x"], p["y"]))
